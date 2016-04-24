@@ -76,7 +76,7 @@ namespace spec
 		[TestMethod, Timeout(1000)]
 		void Sample2_Problem1()
 		{
-			int arr[] = { 1, 2, 3, 5, 0, -999, -999 };
+			int arr[] = { 1, 2, 3, 5, 0, -999, -999};
 			int len = 7;
 			int actual_len = 5;
 			int ans = 4;

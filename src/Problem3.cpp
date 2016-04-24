@@ -48,7 +48,7 @@ Note :
 
 Difficulty : Medium
 */
-#include <stdlib.h>;
+#include <stdlib.h>
 #include <stdio.h>
 
 //data can be accessed using root->data;
@@ -59,21 +59,81 @@ struct enode{
 };
 
 /*
-Helper Functions are optional to write 
+Helper Functions are optional to write
 */
 //Helper Functions Start
 int isOperator(char *data){
-	return 0;
+	int index = 0;
+	if (*data == '+' || *data == '*')
+		return 1;
+	else if (*data == '-')
+	{
+		while (data[index] != '\0')
+		{
+			index++;
+		}
+		if (index == 1)
+			return 1;
+		else
+			return 0;
+	}
+	else
+		return 0;
 }
 int isOperand(char *data){
-	return 0;
+	return 1;
 }
 int getOperand(char *data){
 	//converts data string to an integer "123" => 123
-	return 0;
+	int num = 0, index = 0;
+	if (data[0] == '-')
+	{
+		index++;
+	}
+	int i = index;
+		for (index = i;data[index] != '\0'; index++)
+		num = (num * 10) + (data[index] - '0');
+	return num;
 }
 //Helper Functions end
-int solve_tree(struct enode *root){
-    return -1;
-}
+int inorder(struct enode*root)
+{
+	int val1, val2, lt, rt, res;
+	if (root != NULL)
+	{
+		lt = inorder(root->left);
+		rt = inorder(root->right);
+		val1 = isOperator(root->data);
+		if (val1 == 1)
+		{
+			if (root->data[0] == '+')
+			{
+				res = lt + rt;
+			}
+			else
+				if (root->data[0] == '-')
+				{
+					res = lt - rt;
+				}
+				else
+					if (root->data[0] == '*')
+					{
+						res = lt*rt;
+					}
+			return res;
 
+		}
+		if (val1 != 1)
+			val2 = isOperand(root->data);
+		if (val2 == 1)
+			res = getOperand(root->data);
+		return lt + rt + res;
+	}
+	return 0;
+}
+int solve_tree(struct enode *root){
+	if (root==NULL)
+		return -1;
+	return inorder(root);
+
+}

@@ -70,7 +70,49 @@ struct node{
 	struct node *left;
 	struct node *right;
 };
+void inorder_traversal(struct node*, int*, int *);
+void inorder(struct node *root, int *arr){
+	int index = 0;
+		inorder_traversal(root, arr, &index);
+}
+void inorder_traversal(struct node *root, int *arr, int *index)
+{
+	if (root != NULL)
+	{
+		inorder_traversal(root->left, arr, index);
+		arr[(*index)++] = root->data;
+		inorder_traversal(root->right, arr, index);
+	}
+}
 
 int is_identical(struct node_dll *head, struct node *root){
-	return -1;
+	if (head == NULL || root == NULL)
+		return -1;
+	int *arr;
+	int len=0;
+	struct node_dll *temp;
+	temp = head;
+	while (temp != NULL)
+	{
+		temp = temp->next;
+		len++;
+	}
+	arr = (int*)malloc(len*sizeof(int));
+	inorder(root, arr);
+	int i = 0;
+	temp = head;
+	while (temp != NULL)
+	{
+		if (temp->data == arr[i])
+		{
+			i++;
+			temp = temp->next;
+		}
+		else
+			break;
+	}
+	if (i == len)
+		return 1;
+	else
+		return 0;
 }
